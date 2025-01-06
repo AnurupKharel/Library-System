@@ -403,7 +403,11 @@
                               <Component id="scrPnlAdmin" max="32767" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="lblAdminDashboard" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace pref="523" max="32767" attributes="0"/>
+                                  <EmptySpace max="32767" attributes="0"/>
+                                  <Component id="lblSortBy" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="comBoxSortBy" min="-2" pref="184" max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Component id="txtAdminSearch" min="-2" pref="211" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                   <Component id="lblAdminSearch" min="-2" pref="24" max="-2" attributes="0"/>
@@ -439,14 +443,14 @@
                                                   <Component id="txtTotalBooks" min="-2" pref="165" max="-2" attributes="0"/>
                                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                                      <Component id="jButton1" max="32767" attributes="0"/>
+                                                      <Component id="btnClear" max="32767" attributes="0"/>
                                                       <Component id="comBoxOperatingHours" pref="165" max="32767" attributes="0"/>
                                                   </Group>
                                               </Group>
                                           </Group>
                                           <EmptySpace min="-2" pref="182" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="btnAddLibrary" max="32767" attributes="0"/>
+                                              <Component id="btnAddLibrary" pref="165" max="32767" attributes="0"/>
                                               <Component id="btnUpdateLibrary" max="32767" attributes="0"/>
                                               <Component id="btnDeleteLibrary" max="32767" attributes="0"/>
                                           </Group>
@@ -466,7 +470,7 @@
                           <Group type="103" groupAlignment="1" attributes="0">
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="comBoxOperatingHours" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="btnDeleteLibrary" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
+                                  <Component id="btnDeleteLibrary" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
@@ -474,6 +478,8 @@
                                       <Group type="103" groupAlignment="3" attributes="0">
                                           <Component id="lblAdminDashboard" alignment="3" min="-2" max="-2" attributes="0"/>
                                           <Component id="txtAdminSearch" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="comBoxSortBy" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="lblSortBy" alignment="3" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
@@ -505,7 +511,7 @@
                               </Group>
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnClear" min="-2" max="-2" attributes="0"/>
                           <EmptySpace pref="20" max="32767" attributes="0"/>
                       </Group>
                   </Group>
@@ -525,6 +531,9 @@
                 </Component>
                 <Container class="javax.swing.JScrollPane" name="scrPnlAdmin">
                   <Properties>
+                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                    </Property>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
                         <LineBorder roundedCorners="true" thickness="2">
@@ -540,15 +549,15 @@
                       <Properties>
                         <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                           <Table columnCount="9" rowCount="0">
-                            <Column editable="true" title="Library ID" type="java.lang.Object"/>
-                            <Column editable="true" title="Name" type="java.lang.Object"/>
-                            <Column editable="true" title="Location" type="java.lang.Object"/>
-                            <Column editable="true" title="Library Type" type="java.lang.Object"/>
-                            <Column editable="true" title="Estd.Year" type="java.lang.Object"/>
-                            <Column editable="true" title="Contact" type="java.lang.Object"/>
-                            <Column editable="true" title="Staff Count" type="java.lang.Object"/>
-                            <Column editable="true" title="Total Books" type="java.lang.Object"/>
-                            <Column editable="true" title="Operating Hours" type="java.lang.Object"/>
+                            <Column editable="false" title="Library ID" type="java.lang.Object"/>
+                            <Column editable="false" title="Name" type="java.lang.Object"/>
+                            <Column editable="false" title="Location" type="java.lang.Object"/>
+                            <Column editable="false" title="Library Type" type="java.lang.Object"/>
+                            <Column editable="false" title="Estd.Year" type="java.lang.Object"/>
+                            <Column editable="false" title="Contact" type="java.lang.Object"/>
+                            <Column editable="false" title="Staff Count" type="java.lang.Object"/>
+                            <Column editable="false" title="Total Books" type="java.lang.Object"/>
+                            <Column editable="false" title="Operating Hours" type="java.lang.Object"/>
                           </Table>
                         </Property>
                         <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
@@ -601,7 +610,7 @@
                           </TableColumnModel>
                         </Property>
                         <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
-                          <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
+                          <TableHeader reorderingAllowed="false" resizingAllowed="true"/>
                         </Property>
                       </Properties>
                     </Component>
@@ -936,7 +945,7 @@
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDeleteLibraryActionPerformed"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JButton" name="jButton1">
+                <Component class="javax.swing.JButton" name="btnClear">
                   <Properties>
                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="6c" green="94" red="a4" type="rgb"/>
@@ -950,8 +959,50 @@
                     <Property name="text" type="java.lang.String" value="Clear"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnClearActionPerformed"/>
                   </Events>
+                </Component>
+                <Component class="javax.swing.JComboBox" name="comBoxSortBy">
+                  <Properties>
+                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                      <StringArray count="10">
+                        <StringItem index="0" value="Library ID (Ascending)"/>
+                        <StringItem index="1" value="Library ID (Descending)"/>
+                        <StringItem index="2" value="Name (Ascending)"/>
+                        <StringItem index="3" value="Name (Descending)"/>
+                        <StringItem index="4" value="Estd.Year (Ascending)"/>
+                        <StringItem index="5" value="Estd.Year (Descending)"/>
+                        <StringItem index="6" value="Staff Count (Ascending)"/>
+                        <StringItem index="7" value="Staff Count (Descending)"/>
+                        <StringItem index="8" value="Total Books (Ascending)"/>
+                        <StringItem index="9" value="Total Books (Descending)"/>
+                      </StringArray>
+                    </Property>
+                    <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                      <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+                        <LineBorder roundedCorners="true" thickness="2">
+                          <Color PropertyName="color" blue="6c" green="94" red="a4" type="rgb"/>
+                        </LineBorder>
+                      </Border>
+                    </Property>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="comBoxSortByActionPerformed"/>
+                  </Events>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+                  </AuxValues>
+                </Component>
+                <Component class="javax.swing.JLabel" name="lblSortBy">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="SansSerif" size="12" style="0"/>
+                    </Property>
+                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="6c" green="94" red="a4" type="rgb"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Sort by:"/>
+                  </Properties>
                 </Component>
               </SubComponents>
             </Container>

@@ -1,5 +1,8 @@
 package com.librarysystem.view;
 
+import com.librarysystem.controller.algorithm.InsertionSort;
+import com.librarysystem.controller.algorithm.MergeSort;
+import com.librarysystem.controller.algorithm.SelectionSort;
 import com.librarysystem.model.LibraryModel;
 import com.librarysystem.util.Validation;
 import java.util.ArrayList;
@@ -33,6 +36,7 @@ public class LibraryApp extends javax.swing.JFrame {
         initializeLayout();
         initializeMainScreenLayout();
         initializeData();
+        
         
         tblAdminLib.getSelectionModel().addListSelectionListener(e -> {
         if (!e.getValueIsAdjusting()) { // Ensure the event is not a part of multiple changes
@@ -85,7 +89,9 @@ public class LibraryApp extends javax.swing.JFrame {
         lblAdminForm = new javax.swing.JLabel();
         btnUpdateLibrary = new javax.swing.JButton();
         btnDeleteLibrary = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        btnClear = new javax.swing.JButton();
+        comBoxSortBy = new javax.swing.JComboBox<>();
+        lblSortBy = new javax.swing.JLabel();
         pnlMainBottom = new javax.swing.JPanel();
         lblMainBottomLogOut = new javax.swing.JLabel();
         lblMainBottomlogo = new javax.swing.JLabel();
@@ -256,6 +262,7 @@ public class LibraryApp extends javax.swing.JFrame {
         lblAdminDashboard.setForeground(new java.awt.Color(164, 148, 108));
         lblAdminDashboard.setText("Admin Dashboard");
 
+        scrPnlAdmin.setBackground(new java.awt.Color(255, 255, 255));
         scrPnlAdmin.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(164, 148, 108), 2, true));
 
         tblAdminLib.setModel(new javax.swing.table.DefaultTableModel(
@@ -265,7 +272,16 @@ public class LibraryApp extends javax.swing.JFrame {
             new String [] {
                 "Library ID", "Name", "Location", "Library Type", "Estd.Year", "Contact", "Staff Count", "Total Books", "Operating Hours"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblAdminLib.getTableHeader().setReorderingAllowed(false);
         scrPnlAdmin.setViewportView(tblAdminLib);
 
         lblAdminFunctions.setFont(new java.awt.Font("Serif", 0, 24)); // NOI18N
@@ -381,15 +397,27 @@ public class LibraryApp extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setBackground(new java.awt.Color(164, 148, 108));
-        jButton1.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Clear");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnClear.setBackground(new java.awt.Color(164, 148, 108));
+        btnClear.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        btnClear.setForeground(new java.awt.Color(255, 255, 255));
+        btnClear.setText("Clear");
+        btnClear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnClearActionPerformed(evt);
             }
         });
+
+        comBoxSortBy.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Library ID (Ascending)", "Library ID (Descending)", "Name (Ascending)", "Name (Descending)", "Estd.Year (Ascending)", "Estd.Year (Descending)", "Staff Count (Ascending)", "Staff Count (Descending)", "Total Books (Ascending)", "Total Books (Descending)" }));
+        comBoxSortBy.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(164, 148, 108), 2, true));
+        comBoxSortBy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comBoxSortByActionPerformed(evt);
+            }
+        });
+
+        lblSortBy.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        lblSortBy.setForeground(new java.awt.Color(164, 148, 108));
+        lblSortBy.setText("Sort by:");
 
         javax.swing.GroupLayout pnlMainAdminLayout = new javax.swing.GroupLayout(pnlMainAdmin);
         pnlMainAdmin.setLayout(pnlMainAdminLayout);
@@ -401,7 +429,11 @@ public class LibraryApp extends javax.swing.JFrame {
                     .addComponent(scrPnlAdmin)
                     .addGroup(pnlMainAdminLayout.createSequentialGroup()
                         .addComponent(lblAdminDashboard)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 523, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblSortBy)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(comBoxSortBy, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(txtAdminSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(lblAdminSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -431,11 +463,11 @@ public class LibraryApp extends javax.swing.JFrame {
                                         .addComponent(txtTotalBooks, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
                                         .addGroup(pnlMainAdminLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(btnClear, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                             .addComponent(comBoxOperatingHours, 0, 165, Short.MAX_VALUE))))
                                 .addGap(182, 182, 182)
                                 .addGroup(pnlMainAdminLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btnAddLibrary, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnAddLibrary, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
                                     .addComponent(btnUpdateLibrary, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(btnDeleteLibrary, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                         .addGap(110, 110, 110)))
@@ -448,13 +480,15 @@ public class LibraryApp extends javax.swing.JFrame {
                 .addGroup(pnlMainAdminLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(pnlMainAdminLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(comBoxOperatingHours, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnDeleteLibrary, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnDeleteLibrary, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(pnlMainAdminLayout.createSequentialGroup()
                         .addGroup(pnlMainAdminLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblAdminSearch, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(pnlMainAdminLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(lblAdminDashboard)
-                                .addComponent(txtAdminSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(txtAdminSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(comBoxSortBy, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblSortBy)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(scrPnlAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(10, 10, 10)
@@ -478,7 +512,7 @@ public class LibraryApp extends javax.swing.JFrame {
                             .addComponent(txtTotalBooks, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtStaffCount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(18, 18, 18)
-                .addComponent(jButton1)
+                .addComponent(btnClear)
                 .addContainerGap(20, Short.MAX_VALUE))
         );
 
@@ -588,9 +622,11 @@ public class LibraryApp extends javax.swing.JFrame {
         libList = new ArrayList<>();
 
         // Registering sample students
-        registerLibrary(new LibraryModel(1014, "KTM Library", "Kathmandu", "Public", 1885, "9851060670", 350, 4000, "9:00 - 18:00"));
-        registerLibrary(new LibraryModel(1028, "Giratee Library", "Kathmandu", "Private", 2024, "9851080670", 300, 4050, "9:00 - 18:00"));
-        registerLibrary(new LibraryModel(1039, "Pokhara Library", "Pokhara", "Research", 2000, "985106888", 200, 6000, "9:00 - 18:00"));
+        registerLibrary(new LibraryModel(014, "KTM Library", "Kathmandu", "Public", 1885, "9851060670", 350, 40000, "9:00 - 18:00")); 
+        registerLibrary(new LibraryModel(139, "Pokhara Library", "Pokhara", "Research", 2000, "985106888", 200, 6000, "9:00 - 18:00"));
+        registerLibrary(new LibraryModel(800, "Jignesh Library", "Jignaland", "Private", 2000, "985103888", 280, 4500, "9:00 - 18:00"));
+        registerLibrary(new LibraryModel(118, "w000 Library", "W00land", "Academic", 1555, "985106898", 990, 1000, "9:00 - 18:00"));
+        registerLibrary(new LibraryModel(228, "Giratee Library", "Kathmandu", "Private", 2024, "9851080670", 300, 4050, "9:00 - 18:00"));
     }
     
     private void registerLibrary(LibraryModel library) {
@@ -819,9 +855,10 @@ public class LibraryApp extends javax.swing.JFrame {
             DefaultTableModel model = (DefaultTableModel) tblAdminLib.getModel();
             model.removeRow(selectedRow);
         }
+        libList.remove(selectedRow);
     }//GEN-LAST:event_btnDeleteLibraryActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
             txtLibraryID.setText("");
             txtName.setText("");
             txtLocation.setText("");
@@ -829,8 +866,32 @@ public class LibraryApp extends javax.swing.JFrame {
             txtContact.setText("");
             txtStaffCount.setText("");
             txtTotalBooks.setText("");
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnClearActionPerformed
 
+    private void comBoxSortByActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comBoxSortByActionPerformed
+
+        String item = (String)comBoxSortBy.getSelectedItem();
+        if (item.equals("Total Books (Ascending)") || item.equals("Total Books (Descending)") || item.equals("Staff Count (Ascending)") || item.equals("Staff Count (Descending)")){
+            SelectionSort.selectionSort(libList, item);
+            
+            
+        }else if(item.equals("Library ID (Ascending)") || item.equals("Library ID (Descending)") || item.equals("Estd.Year (Ascending)") || item.equals("Estd.Year (Descending)")){
+            InsertionSort.insertionSort(libList, item);
+        }else{
+            MergeSort.sort(libList, item);
+        }
+        
+        
+        
+        DefaultTableModel model = (DefaultTableModel) tblAdminLib.getModel();
+        model.setRowCount(0);
+        for(LibraryModel library : libList){
+            model.addRow(new Object[]{
+            library.getLibID(), library.getLibName(), library.getLocation(), library.getLibType(), library.getEstablishedYear(), library.getContactNumber(), library.getStaffCount(), library.getTotalBooks(), library.getOperatingHours()
+        });
+        }
+    }//GEN-LAST:event_comBoxSortByActionPerformed
+    
     /**
      * @param args the command line arguments
      */
@@ -842,7 +903,7 @@ public class LibraryApp extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows Classic".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -869,12 +930,13 @@ public class LibraryApp extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddLibrary;
+    private javax.swing.JButton btnClear;
     private javax.swing.JButton btnDeleteLibrary;
     private javax.swing.JButton btnLogIn;
     private javax.swing.JButton btnUpdateLibrary;
     private javax.swing.JComboBox<String> comBoxLibraryType;
     private javax.swing.JComboBox<String> comBoxOperatingHours;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JComboBox<String> comBoxSortBy;
     private javax.swing.JLabel lblAdminDashboard;
     private javax.swing.JLabel lblAdminForm;
     private javax.swing.JLabel lblAdminFunctions;
@@ -887,6 +949,7 @@ public class LibraryApp extends javax.swing.JFrame {
     private javax.swing.JLabel lblMainBottomHome;
     private javax.swing.JLabel lblMainBottomLogOut;
     private javax.swing.JLabel lblMainBottomlogo;
+    private javax.swing.JLabel lblSortBy;
     private javax.swing.JPanel pnlHomeDesc;
     private javax.swing.JPanel pnlLoginCenter;
     private javax.swing.JPanel pnlLoginScreen;

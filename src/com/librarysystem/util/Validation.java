@@ -1,3 +1,4 @@
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
@@ -12,7 +13,7 @@ import java.util.regex.Pattern;
  */
 public class Validation {
     private static final Pattern LIB_NAME_PATTERN = Pattern.compile("^[a-zA-Z]+$");
-    private static final Pattern LIB_ID_PATTERN = Pattern.compile("^\\d{4}$");
+    private static final Pattern LIB_ID_PATTERN = Pattern.compile("^\\d{3}$");
     private static final Pattern LOCATION_PATTERN = Pattern.compile("^[a-zA-Z\\s]+$");
     private static final Pattern CONTACT_NUMBER_PATTERN = Pattern.compile("^98\\d{8}$");
 
