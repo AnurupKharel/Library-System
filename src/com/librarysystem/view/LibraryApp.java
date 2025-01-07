@@ -1,5 +1,6 @@
 package com.librarysystem.view;
 
+import com.librarysystem.controller.algorithm.BinarySearch;
 import com.librarysystem.controller.algorithm.InsertionSort;
 import com.librarysystem.controller.algorithm.MergeSort;
 import com.librarysystem.controller.algorithm.SelectionSort;
@@ -39,7 +40,7 @@ public class LibraryApp extends javax.swing.JFrame {
         
         
         tblAdminLib.getSelectionModel().addListSelectionListener(e -> {
-        if (!e.getValueIsAdjusting()) { // Ensure the event is not a part of multiple changes
+        if (!e.getValueIsAdjusting()) { 
             setTextFieldsToSelectedRow();
     }
 });
@@ -291,6 +292,12 @@ public class LibraryApp extends javax.swing.JFrame {
         txtAdminSearch.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(164, 148, 108), 2, true));
 
         lblAdminSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/librarysystem/resources/search.png"))); // NOI18N
+        lblAdminSearch.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblAdminSearch.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblAdminSearchMouseClicked(evt);
+            }
+        });
 
         txtLibraryID.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         txtLibraryID.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(164, 148, 108), 2, true), "Library ID", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 14), new java.awt.Color(164, 148, 108))); // NOI18N
@@ -623,9 +630,9 @@ public class LibraryApp extends javax.swing.JFrame {
 
         // Registering sample students
         registerLibrary(new LibraryModel(014, "KTM Library", "Kathmandu", "Public", 1885, "9851060670", 350, 40000, "9:00 - 18:00")); 
-        registerLibrary(new LibraryModel(139, "Pokhara Library", "Pokhara", "Research", 2000, "985106888", 200, 6000, "9:00 - 18:00"));
-        registerLibrary(new LibraryModel(800, "Jignesh Library", "Jignaland", "Private", 2000, "985103888", 280, 4500, "9:00 - 18:00"));
-        registerLibrary(new LibraryModel(118, "w000 Library", "W00land", "Academic", 1555, "985106898", 990, 1000, "9:00 - 18:00"));
+        registerLibrary(new LibraryModel(139, "Pokhara Library", "Pokhara", "Research", 2000, "9851068889", 200, 6000, "9:00 - 18:00"));
+        registerLibrary(new LibraryModel(800, "Nepal Bharat Library", "Kathmandu", "Public", 2000, "9851038889", 280, 4500, "9:00 - 18:00"));
+        registerLibrary(new LibraryModel(118, "Lumbini Library", "Rupandehi", "Academic", 1555, "9851068989", 990, 1000, "9:00 - 18:00"));
         registerLibrary(new LibraryModel(228, "Giratee Library", "Kathmandu", "Private", 2024, "9851080670", 300, 4050, "9:00 - 18:00"));
     }
     
@@ -891,6 +898,19 @@ public class LibraryApp extends javax.swing.JFrame {
         });
         }
     }//GEN-LAST:event_comBoxSortByActionPerformed
+
+    private void lblAdminSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAdminSearchMouseClicked
+        MergeSort mergeSort = new MergeSort();
+        List<LibraryModel> sortedList = mergeSort.sort(libList, "Name (Ascending)");
+        BinarySearch search = new BinarySearch();
+        LibraryModel searchedData = search.searchByName(txtAdminSearch.getText().trim(), sortedList, 0, sortedList.size()-1);
+        if (searchedData != null) {
+            JOptionPane. showMessageDialog (null,"Name of the Library: " + searchedData.getLibName() + "\n"+ "Library ID: " + searchedData.getLibID() +  "\n"+ "Estd. Year: " + searchedData.getEstablishedYear() + "\n"+ "OperatingHours: " + searchedData.getOperatingHours()+ "\n"+ "Location: " + searchedData.getLocation(),"Search Result Found", JOptionPane.INFORMATION_MESSAGE) ;
+
+        } else{
+            JOptionPane. showMessageDialog ( null,"Sorry! The library you are searching is not registered.","Search Result Not Found.",JOptionPane.ERROR_MESSAGE);
+        } 
+    }//GEN-LAST:event_lblAdminSearchMouseClicked
     
     /**
      * @param args the command line arguments

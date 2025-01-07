@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
  * @author anuru
  */
 public class Validation {
-    private static final Pattern LIB_NAME_PATTERN = Pattern.compile("^[a-zA-Z]+$");
+    private static final Pattern LIB_NAME_PATTERN = Pattern.compile("^[a-zA-Z\\s]+$");
     private static final Pattern LIB_ID_PATTERN = Pattern.compile("^\\d{3}$");
     private static final Pattern LOCATION_PATTERN = Pattern.compile("^[a-zA-Z\\s]+$");
     private static final Pattern CONTACT_NUMBER_PATTERN = Pattern.compile("^98\\d{8}$");
