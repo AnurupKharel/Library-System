@@ -37,14 +37,7 @@ public class LibraryApp extends javax.swing.JFrame {
         initializeLayout();
         initializeMainScreenLayout();
         initializeData();
-        
-        
-        tblAdminLib.getSelectionModel().addListSelectionListener(e -> {
-        if (!e.getValueIsAdjusting()) { 
-            setTextFieldsToSelectedRow();
-    }
-});
-        
+           
     }
 
     /**
@@ -173,10 +166,10 @@ public class LibraryApp extends javax.swing.JFrame {
         lblLoginLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/librarysystem/resources/Logo.png"))); // NOI18N
 
         pnlLoginCenter.setBackground(new java.awt.Color(255, 255, 255));
-        pnlLoginCenter.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(164, 148, 108), 2, true), "Log in to your account", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Serif", 1, 24), new java.awt.Color(164, 148, 108))); // NOI18N
+        pnlLoginCenter.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(164, 148, 108), 2, true), "Log in to your account", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Serif", 0, 24), new java.awt.Color(164, 148, 108))); // NOI18N
 
         txtLoginUsername.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
-        txtLoginUsername.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(164, 148, 108), 2, true), "Username", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 18), new java.awt.Color(164, 148, 108))); // NOI18N
+        txtLoginUsername.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(164, 148, 108), 2, true), "Username", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 18), new java.awt.Color(164, 148, 108))); // NOI18N
 
         btnLogIn.setBackground(new java.awt.Color(164, 148, 108));
         btnLogIn.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
@@ -188,7 +181,7 @@ public class LibraryApp extends javax.swing.JFrame {
             }
         });
 
-        pwdLoginPassword.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(164, 148, 108), 2, true), "Password", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 1, 18), new java.awt.Color(164, 148, 108))); // NOI18N
+        pwdLoginPassword.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(164, 148, 108), 2, true), "Password", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 18), new java.awt.Color(164, 148, 108))); // NOI18N
 
         lblLoginError.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         lblLoginError.setForeground(new java.awt.Color(204, 0, 0));
@@ -283,6 +276,11 @@ public class LibraryApp extends javax.swing.JFrame {
             }
         });
         tblAdminLib.getTableHeader().setReorderingAllowed(false);
+        tblAdminLib.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblAdminLibMouseClicked(evt);
+            }
+        });
         scrPnlAdmin.setViewportView(tblAdminLib);
 
         lblAdminFunctions.setFont(new java.awt.Font("Serif", 0, 24)); // NOI18N
@@ -351,7 +349,7 @@ public class LibraryApp extends javax.swing.JFrame {
         comBoxLibraryType.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(164, 148, 108), 2, true), "Library Type", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 14), new java.awt.Color(164, 148, 108))); // NOI18N
         comBoxLibraryType.setOpaque(true);
 
-        comBoxOperatingHours.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "06:00 - 18:00", "09:00 - 17:00", "17:00 - 02:00", " " }));
+        comBoxOperatingHours.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "06:00 - 18:00", "09:00 - 17:00", "17:00 - 02:00" }));
         comBoxOperatingHours.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(164, 148, 108), 2, true), "Operating Hours", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 14), new java.awt.Color(164, 148, 108))); // NOI18N
         comBoxOperatingHours.setOpaque(true);
 
@@ -725,61 +723,80 @@ public class LibraryApp extends javax.swing.JFrame {
     }//GEN-LAST:event_txtStaffCountActionPerformed
 
     private void btnAddLibraryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddLibraryActionPerformed
-            String libId = txtLibraryID.getText();
-            String name = txtName.getText();
-            String location = txtLocation.getText();
-            String libType = (String)comBoxLibraryType.getSelectedItem();
-            String estdYear = txtEstdYear.getText();
-            String contact = txtContact.getText();
-            String staffCount = txtStaffCount.getText();
-            String totalBooks = txtTotalBooks.getText();
-            String operatingHours = (String)comBoxOperatingHours.getSelectedItem();
+
+                                                      
+        String libId = txtLibraryID.getText();
+        String name = txtName.getText();
+        String location = txtLocation.getText();
+        String libType = (String) comBoxLibraryType.getSelectedItem();
+        String estdYear = txtEstdYear.getText();
+        String contact = txtContact.getText();
+        String staffCount = txtStaffCount.getText();
+        String totalBooks = txtTotalBooks.getText();
+        String operatingHours = (String) comBoxOperatingHours.getSelectedItem();
+        
+        boolean valid = true;
+        
+        StringBuilder errors = new StringBuilder(); // Collect error messages
+
+        // Check for empty fields
+        if (Validation.isNullOrEmpty(libId) || Validation.isNullOrEmpty(name)
+                || Validation.isNullOrEmpty(location) 
+                || Validation.isNullOrEmpty(estdYear) || Validation.isNullOrEmpty(contact)
+                || Validation.isNullOrEmpty(staffCount) || Validation.isNullOrEmpty(totalBooks)
+                ) {
+            errors.append("Please fill the entire form.\n");
+        } else {
             
-           boolean valid = true;
-            
-        if(Validation.isNullOrEmpty(libId)||Validation.isNullOrEmpty(name)||Validation.isNullOrEmpty(location)||Validation.isNullOrEmpty(libType)||Validation.isNullOrEmpty(estdYear)||Validation.isNullOrEmpty(contact)||Validation.isNullOrEmpty(staffCount)||Validation.isNullOrEmpty(totalBooks)||Validation.isNullOrEmpty(operatingHours)){
-            JOptionPane.showMessageDialog(this, "Please fill the entire form", "WARNING",JOptionPane.ERROR_MESSAGE);
-            valid = false;
+            for(LibraryModel library : libList){
+                if (Integer.parseInt(libId)== library.getLibID()){
+                    valid = false;
+                }
+            }
+            if (valid) {
+                try {
+                    if (!Validation.isValidLibId(Integer.parseInt(libId))) {
+                        errors.append("Library ID must be 3 digits.\n");
+                    }
+                    if (!Validation.isValidName(name)) {
+                        errors.append("Name should only include alphabets.\n");
+                    }
+                    if (!Validation.isValidLocation(location)) {
+                        errors.append("Location should only include alphabets.\n");
+                    }
+                    if (!Validation.isValidContact(contact)) {
+                        errors.append("Contact number should be 10 digits and start with 98.\n");
+                    }
+                    if (!Validation.isValidTotalBooks(Integer.parseInt(totalBooks))) {
+                        errors.append("Total Books must be a positive number.\n");
+                    }
+                    if (!Validation.isValidStaffCount(Integer.parseInt(staffCount))) {
+                        errors.append("Staff Count must be between 1 and 999.\n");
+                    }
+                    if (!Validation.isValidEstdYear(Integer.parseInt(estdYear))) {
+                        errors.append("Established Year must be between 1500 and 2024.\n");
+                    }
+                } catch (NumberFormatException e) {
+                    errors.append("Enter valid numbers where required.\n");
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "This library is already registered", "Validation Errors", JOptionPane.ERROR_MESSAGE);
+            }
         }
-        else {
-            try{
-                if(!Validation.isValidLibId(Integer.parseInt(libId))){
-                    JOptionPane.showMessageDialog(this, "Id must be 4 digits", "WARNING",JOptionPane.ERROR_MESSAGE);
-                    valid = false;
-                }
-                if(!Validation.isValidName(name)){
-                    JOptionPane.showMessageDialog(this, "Only include alphabets in Name","WARNING",JOptionPane.ERROR_MESSAGE);
-                    valid = false;
-                }
-                if(!Validation.isValidLocation(location)){
-                    JOptionPane.showMessageDialog(this, "Only include alphabets in Location", "WARNING",JOptionPane.ERROR_MESSAGE);
-                    valid = false;
-                }
-                if(!Validation.isValidContact(contact)){
-                    JOptionPane.showMessageDialog(this, "Numbers should be of 10 digits starting from 98", "WARNING",JOptionPane.ERROR_MESSAGE);
-                    valid = false;
-                }
-                if(!Validation.isValidTotalBooks(Integer.parseInt(totalBooks))){
-                    JOptionPane.showMessageDialog(this, "Enter valid number of Total Books", "WARNING",JOptionPane.ERROR_MESSAGE);
-                    valid = false;
-                }
-                if(!Validation.isValidStaffCount(Integer.parseInt(staffCount))){
-                    JOptionPane.showMessageDialog(this, "Enter valid number Staff Count", "WARNING",JOptionPane.ERROR_MESSAGE);
-                    valid = false;
-                }
-                if(!Validation.isValidEstdYear(Integer.parseInt(estdYear))){
-                    JOptionPane.showMessageDialog(this, "Enter a valid year", "WARNING",JOptionPane.ERROR_MESSAGE);
-                    valid = false;
-                }}
-            catch(NumberFormatException e){
-                
-               JOptionPane.showMessageDialog(this, "Enter numbers where required", "WARNING",JOptionPane.ERROR_MESSAGE);
-               valid = false;
-            }
-            if(valid == true){
-                registerLibrary(new LibraryModel(Integer.parseInt(libId), name, location, libType,Integer.parseInt(estdYear), contact, Integer.parseInt(staffCount), Integer.parseInt(totalBooks), operatingHours));
-            }
-        }   
+
+        // Display errors if any
+        if (errors.length() > 0) {
+            JOptionPane.showMessageDialog(this, errors.toString(), "Validation Errors", JOptionPane.ERROR_MESSAGE);
+        } else if(valid) {
+            // If valid, register the library
+            registerLibrary(new LibraryModel(
+                    Integer.parseInt(libId), name, location, libType,
+                    Integer.parseInt(estdYear), contact,
+                    Integer.parseInt(staffCount), Integer.parseInt(totalBooks), operatingHours));
+            JOptionPane.showMessageDialog(this, "Library added successfully!", "Add Successful", JOptionPane.INFORMATION_MESSAGE);
+        }
+
+
     }//GEN-LAST:event_btnAddLibraryActionPerformed
 
     private void btnLogInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogInActionPerformed
@@ -803,6 +820,8 @@ public class LibraryApp extends javax.swing.JFrame {
 
     private void lblMainBottomLogOutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblMainBottomLogOutMouseClicked
         cardLayout.show(getContentPane(), "LoginScreen");
+        txtLoginUsername.setText("");
+        pwdLoginPassword.setText("");
     }//GEN-LAST:event_lblMainBottomLogOutMouseClicked
 
     private void lblMainBottomHomeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblMainBottomHomeMouseClicked
@@ -814,55 +833,109 @@ public class LibraryApp extends javax.swing.JFrame {
     }//GEN-LAST:event_lblMainBottomAdminMouseClicked
 
     private void btnUpdateLibraryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateLibraryActionPerformed
-        DefaultTableModel model = (DefaultTableModel) tblAdminLib.getModel(); 
-        int selectedRow = tblAdminLib.getSelectedRow();
-        if (selectedRow != -1) {
+
+                                                        
+    DefaultTableModel model = (DefaultTableModel) tblAdminLib.getModel();
+    int selectedRow = tblAdminLib.getSelectedRow();
+
+    if (selectedRow != -1) {
+        // Retrieve updated values from text fields and combo boxes
+        String libId = txtLibraryID.getText();
+        String name = txtName.getText();
+        String location = txtLocation.getText();
+        String libType = (String) comBoxLibraryType.getSelectedItem();
+        String estdYear = txtEstdYear.getText();
+        String contact = txtContact.getText();
+        String staffCount = txtStaffCount.getText();
+        String totalBooks = txtTotalBooks.getText();
+        String operatingHours = (String) comBoxOperatingHours.getSelectedItem();
+
+        boolean valid = true;
+        StringBuilder errors = new StringBuilder(); // Collect error messages
+
+        // Check for empty fields
+        if (Validation.isNullOrEmpty(libId) || Validation.isNullOrEmpty(name)
+                || Validation.isNullOrEmpty(location) 
+                || Validation.isNullOrEmpty(estdYear) || Validation.isNullOrEmpty(contact)
+                || Validation.isNullOrEmpty(staffCount) || Validation.isNullOrEmpty(totalBooks)) {
+            errors.append("Please fill the entire form.\n");
+            valid = false;
+        } else {
             try {
-                // Retrieve updated values from text fields and combo boxes
-                int libID = Integer.parseInt(txtLibraryID.getText());
-                String libName = txtName.getText();
-                String location = txtLocation.getText();
-                String libType = (String) comBoxLibraryType.getSelectedItem();
-                int establishedYear = Integer.parseInt(txtEstdYear.getText());
-                String contactNumber = txtContact.getText();
-                int staffCount = Integer.parseInt(txtStaffCount.getText());
-                int totalBooks = Integer.parseInt(txtTotalBooks.getText());
-                String operatingHours = (String) comBoxOperatingHours.getSelectedItem();
-             
-                
-                LibraryModel updatedLibrary = new LibraryModel(libID, libName, location, libType, establishedYear, contactNumber, staffCount, totalBooks, operatingHours);
+                if (!Validation.isValidLibId(Integer.parseInt(libId))) {
+                    errors.append("Library ID must be 3 digits.\n");
+                }
+                if (!Validation.isValidName(name)) {
+                    errors.append("Name should only include alphabets.\n");
+                }
+                if (!Validation.isValidLocation(location)) {
+                    errors.append("Location should only include alphabets.\n");
+                }
+                if (!Validation.isValidContact(contact)) {
+                    errors.append("Contact number should be 10 digits and start with 98.\n");
+                }
+                if (!Validation.isValidTotalBooks(Integer.parseInt(totalBooks))) {
+                    errors.append("Total Books must be a positive number.\n");
+                }
+                if (!Validation.isValidStaffCount(Integer.parseInt(staffCount))) {
+                    errors.append("Staff Count must be between 1 and 999.\n");
+                }
+                if (!Validation.isValidEstdYear(Integer.parseInt(estdYear))) {
+                    errors.append("Established Year must be between 1500 and 2024.\n");
+                }
+            } catch (NumberFormatException ex) {
+                errors.append("Enter valid numbers where required.\n");
+                valid = false;
+            }
+        }
+
+        // Display errors if any
+        if (errors.length() > 0) {
+            JOptionPane.showMessageDialog(this, errors.toString(), "Validation Errors", JOptionPane.ERROR_MESSAGE);
+        } else if (valid) {
+            
+              // If valid, update the library
+            LibraryModel updatedLibrary = new LibraryModel(
+                    Integer.parseInt(libId), name, location, libType,
+                    Integer.parseInt(estdYear), contact,
+                    Integer.parseInt(staffCount), Integer.parseInt(totalBooks), operatingHours);
 
             // Replace the old object in the ArrayList
-                libList.set(selectedRow, updatedLibrary);
+            libList.set(selectedRow, updatedLibrary);
 
-                // Update the table row
-                model.setValueAt(libID, selectedRow, 0);
-                model.setValueAt(libName, selectedRow, 1);
-                model.setValueAt(location, selectedRow, 2);
-                model.setValueAt(libType, selectedRow, 3);
-                model.setValueAt(establishedYear, selectedRow, 4);
-                model.setValueAt(contactNumber, selectedRow, 5);
-                model.setValueAt(staffCount, selectedRow, 6);
-                model.setValueAt(totalBooks, selectedRow, 7);
-                model.setValueAt(operatingHours, selectedRow, 8);
+            // Update the table row
+            model.setValueAt(libId, selectedRow, 0);
+            model.setValueAt(name, selectedRow, 1);
+            model.setValueAt(location, selectedRow, 2);
+            model.setValueAt(libType, selectedRow, 3);
+            model.setValueAt(estdYear, selectedRow, 4);
+            model.setValueAt(contact, selectedRow, 5);
+            model.setValueAt(staffCount, selectedRow, 6);
+            model.setValueAt(totalBooks, selectedRow, 7);
+            model.setValueAt(operatingHours, selectedRow, 8);
 
-                
+            JOptionPane.showMessageDialog(this, "Library updated successfully!", "Update Successful", JOptionPane.INFORMATION_MESSAGE);
 
-            } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(null, "Invalid input. Please enter valid data.");
-            }
-        } 
-    
+        }
+        
+    } else {
+        JOptionPane.showMessageDialog(this, "Please select a row to update.", "No Selection", JOptionPane.WARNING_MESSAGE);
+    }
+
 
     }//GEN-LAST:event_btnUpdateLibraryActionPerformed
 
     private void btnDeleteLibraryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteLibraryActionPerformed
         int selectedRow = tblAdminLib.getSelectedRow();
-        if (selectedRow != -1) { 
+        if (selectedRow != -1) {
             DefaultTableModel model = (DefaultTableModel) tblAdminLib.getModel();
             model.removeRow(selectedRow);
+            libList.remove(selectedRow);
+        } else {
+            JOptionPane.showMessageDialog(this, "Please select a row to delete.", "No Selection", JOptionPane.WARNING_MESSAGE);
         }
-        libList.remove(selectedRow);
+
+        
     }//GEN-LAST:event_btnDeleteLibraryActionPerformed
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
@@ -905,12 +978,27 @@ public class LibraryApp extends javax.swing.JFrame {
         BinarySearch search = new BinarySearch();
         LibraryModel searchedData = search.searchByName(txtAdminSearch.getText().trim(), sortedList, 0, sortedList.size()-1);
         if (searchedData != null) {
-            JOptionPane. showMessageDialog (null,"Name of the Library: " + searchedData.getLibName() + "\n"+ "Library ID: " + searchedData.getLibID() +  "\n"+ "Estd. Year: " + searchedData.getEstablishedYear() + "\n"+ "OperatingHours: " + searchedData.getOperatingHours()+ "\n"+ "Location: " + searchedData.getLocation(),"Search Result Found", JOptionPane.INFORMATION_MESSAGE) ;
-
+            // Find the row in the table that matches the searched data
+            DefaultTableModel model = (DefaultTableModel) tblAdminLib.getModel();
+            for (int i = 0; i < model.getRowCount(); i++) {
+                // Assuming the library name is in column 1 (adjust index if needed)
+                if (model.getValueAt(i, 1).equals(searchedData.getLibName())) {
+                    // Select and highlight the row
+                    tblAdminLib.setRowSelectionInterval(i, i); // Select the row
+                    tblAdminLib.scrollRectToVisible(tblAdminLib.getCellRect(i, 0, true)); // Ensure it's visible
+                    break;
+                }
+            }
         } else{
-            JOptionPane. showMessageDialog ( null,"Sorry! The library you are searching is not registered.","Search Result Not Found.",JOptionPane.ERROR_MESSAGE);
+            JOptionPane. showMessageDialog (this,"Sorry! The library you are searching is not registered.","Search Result Not Found.",JOptionPane.ERROR_MESSAGE);
         } 
     }//GEN-LAST:event_lblAdminSearchMouseClicked
+
+    private void tblAdminLibMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblAdminLibMouseClicked
+        if (evt.getClickCount() == 1) { // Double-click detection
+            setTextFieldsToSelectedRow();
+        }
+    }//GEN-LAST:event_tblAdminLibMouseClicked
     
     /**
      * @param args the command line arguments

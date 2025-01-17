@@ -34,12 +34,12 @@ public class InsertionSort {
                     -- j;    
                 }
             }else if(item.equals("Estd.Year (Ascending)")){
-                while (j >= 0 && key.getLibID() > list.get(j).getEstablishedYear()) {
+                while (j >= 0 && key.getEstablishedYear() < list.get(j).getEstablishedYear()) {
                     list.set(j+1, list.get(j));
                     -- j;    
                 }
-            }else if(item.equals("Estd.year (Descending)")){
-                while (j >= 0 && key.getLibID() < list.get(j).getEstablishedYear()) {
+            }else if(item.equals("Estd.Year (Descending)")){
+                while (j >= 0 && key.getEstablishedYear() > list.get(j).getEstablishedYear()) {
                     list.set(j+1, list.get(j));
                     -- j;    
                 }

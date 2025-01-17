@@ -190,7 +190,7 @@
                       <Color PropertyName="color" blue="6c" green="94" red="a4" type="rgb"/>
                     </LineBorder>
                   </Border>
-                  <Font PropertyName="font" name="Serif" size="24" style="1"/>
+                  <Font PropertyName="font" name="Serif" size="24" style="0"/>
                   <Color PropertyName="color" blue="6c" green="94" red="a4" type="rgb"/>
                 </TitledBorder>
               </Border>
@@ -246,7 +246,7 @@
                           <Color PropertyName="color" blue="6c" green="94" red="a4" type="rgb"/>
                         </LineBorder>
                       </Border>
-                      <Font PropertyName="font" name="Segoe UI" size="18" style="1"/>
+                      <Font PropertyName="font" name="SansSerif" size="18" style="0"/>
                       <Color PropertyName="color" blue="6c" green="94" red="a4" type="rgb"/>
                     </TitledBorder>
                   </Border>
@@ -280,7 +280,7 @@
                           <Color PropertyName="color" blue="6c" green="94" red="a4" type="rgb"/>
                         </LineBorder>
                       </Border>
-                      <Font PropertyName="font" name="SansSerif" size="18" style="1"/>
+                      <Font PropertyName="font" name="SansSerif" size="18" style="0"/>
                       <Color PropertyName="color" blue="6c" green="94" red="a4" type="rgb"/>
                     </TitledBorder>
                   </Border>
@@ -613,6 +613,9 @@
                           <TableHeader reorderingAllowed="false" resizingAllowed="true"/>
                         </Property>
                       </Properties>
+                      <Events>
+                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tblAdminLibMouseClicked"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>
@@ -821,11 +824,10 @@
                 <Component class="javax.swing.JComboBox" name="comBoxOperatingHours">
                   <Properties>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                      <StringArray count="4">
+                      <StringArray count="3">
                         <StringItem index="0" value="06:00 - 18:00"/>
                         <StringItem index="1" value="09:00 - 17:00"/>
                         <StringItem index="2" value="17:00 - 02:00"/>
-                        <StringItem index="3" value=" "/>
                       </StringArray>
                     </Property>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
