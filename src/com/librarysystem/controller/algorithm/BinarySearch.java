@@ -11,7 +11,23 @@ import java.util.List;
  *
  * @author anuru
  */
+/**
+ * This class implements the Binary Search algorithm to search for a library
+ * by its name within a sorted list of `LibraryModel` objects.
+ */
 public class BinarySearch {
+    
+    /**
+     * Performs a binary search for a library by its name in a sorted list.
+     * The search is case-insensitive and returns the `LibraryModel` if found,
+     * or `null` if not found.
+     *
+     * @param searchValue the name of the library to search for
+     * @param list        the sorted list of `LibraryModel` objects to search within
+     * @param left        the starting index of the list segment to search
+     * @param right       the ending index of the list segment to search
+     * @return the `LibraryModel` object if found, or `null` if not found
+     */
     public LibraryModel searchByName(String searchValue, List<LibraryModel> list,
             int left, int right) {
 

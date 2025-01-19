@@ -19,7 +19,7 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author anuru
+ * @author 23048644 Anurup Kharel
  */
 public class LibraryApp extends javax.swing.JFrame {
 
@@ -623,52 +623,84 @@ public class LibraryApp extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Initializes the library data by creating a list of sample libraries. Adds
+     * predefined library objects to the library list and registers them in the
+     * system.
+     */
     private void initializeData(){
+        // Create a new library list to hold LibraryModel objects
         libList = new ArrayList<>();
 
-        // Registering sample students
-        registerLibrary(new LibraryModel(014, "KTM Library", "Kathmandu", "Public", 1885, "9851060670", 350, 40000, "9:00 - 18:00")); 
-        registerLibrary(new LibraryModel(139, "Pokhara Library", "Pokhara", "Research", 2000, "9851068889", 200, 6000, "9:00 - 18:00"));
-        registerLibrary(new LibraryModel(800, "Nepal Bharat Library", "Kathmandu", "Public", 2000, "9851038889", 280, 4500, "9:00 - 18:00"));
-        registerLibrary(new LibraryModel(118, "Lumbini Library", "Rupandehi", "Academic", 1555, "9851068989", 990, 1000, "9:00 - 18:00"));
-        registerLibrary(new LibraryModel(228, "Giratee Library", "Kathmandu", "Private", 2024, "9851080670", 300, 4050, "9:00 - 18:00"));
+        // Registering sample libraries
+        registerLibrary(new LibraryModel(014, "KTM Library", "Kathmandu", "Public", 1885, "9851060670", 350, 40000, "09:00 - 17:00")); 
+        registerLibrary(new LibraryModel(139, "Pokhara Library", "Pokhara", "Research", 2000, "9851068889", 200, 30000, "09:00 - 17:00"));
+        registerLibrary(new LibraryModel(800, "Nepal Bharat Library", "Kathmandu", "Public", 2000, "9851038889", 280, 63000, "06:00 - 18:00"));
+        registerLibrary(new LibraryModel(118, "Lumbini Library", "Rupandehi", "Academic", 1555, "9851068989", 500, 30000, "06:00 - 18:00"));
+        registerLibrary(new LibraryModel(228, "Giratee Library", "Kathmandu", "Private", 2024, "9851080670", 300, 40500, "17:00 - 02:00"));
     }
-    
+    /**
+     * Registers a new library by adding it to the library list and updating the
+     * table view.
+     *
+     * @param library The LibraryModel object representing the library to be
+     * registered.
+     */
     private void registerLibrary(LibraryModel library) {
+        //Adding the library model object to the library list
         libList.add(library);
+        // Update the table model to include the new library details
         DefaultTableModel model = (DefaultTableModel) tblAdminLib.getModel();
         model.addRow(new Object[]{
             library.getLibID(), library.getLibName(), library.getLocation(), library.getLibType(), library.getEstablishedYear(), library.getContactNumber(), library.getStaffCount(), library.getTotalBooks(), library.getOperatingHours()
         });
     }
     
+    /**
+     * Initializes the main layout of the application using a CardLayout.
+     * Configures the container to switch between different screens.
+     */
     private void initializeLayout(){
+        // Create and set a new CardLayout for managing the main screens
         cardLayout = new java.awt.CardLayout();
         getContentPane().setLayout(cardLayout);
         
-        
+        //Add the panels to the layout with releant identifiers
         getContentPane().add(pnlLoginScreen, "LoginScreen");
         getContentPane().add(pnlMainScreen, "MainScreen");
-        
+        //Display the login screen by default
         cardLayout.show(getContentPane(), "LoginScreen");
     }
+    
+    /**
+     * Initializes the layout for the main screen using a CardLayout. Configures
+     * the panel to switch between different sections within the main screen.
+     */
     private void initializeMainScreenLayout(){
+        // Create and set a new CardLayout for managing the main screen's sections
         mainCardLayout = new java.awt.CardLayout();
         pnlMain.setLayout(mainCardLayout);
         
+        //Add the panels to the layout with releant identifiers
         pnlMain.add(pnlMainHome, "Home");
         pnlMain.add(pnlMainAdmin, "Admin");
         
+        //Display the Home panel by default
         mainCardLayout.show(pnlMain, "Home");
         
-    }
-    
+    }   
     
 
-// Method to update text fields
+/**
+ * Sets the values of text fields and combo boxes to the data from the selected row in the table.
+ * Ensures that the form displays the details of the selected library record for updating.
+ */
     private void setTextFieldsToSelectedRow() {
+        // Retrieve the table model from the admin library table
         DefaultTableModel model = (DefaultTableModel) tblAdminLib.getModel();
+        // Get the index of the selected row in the table
         int selectedRow = tblAdminLib.getSelectedRow();
+        // Check if a row is selected
         if (selectedRow != -1) {
             // Retrieve values from the selected row
             int libID = (int) model.getValueAt(selectedRow, 0);
@@ -722,9 +754,17 @@ public class LibraryApp extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtStaffCountActionPerformed
 
+    /**
+     * Handles the action event when the "Add Library" button is clicked.
+     * Validates the input fields, checks for duplicate library IDs, and
+     * registers a new library if the inputs are valid. Displays appropriate
+     * error or success messages based on validation outcomes.
+     *
+     * @param evt the event triggered when the button is clicked
+     */
     private void btnAddLibraryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddLibraryActionPerformed
 
-                                                      
+        // Retrieve input values from text fields and combo boxes                                              
         String libId = txtLibraryID.getText();
         String name = txtName.getText();
         String location = txtLocation.getText();
@@ -735,9 +775,10 @@ public class LibraryApp extends javax.swing.JFrame {
         String totalBooks = txtTotalBooks.getText();
         String operatingHours = (String) comBoxOperatingHours.getSelectedItem();
         
+        // Flag to track validity of input data
         boolean valid = true;
-        
-        StringBuilder errors = new StringBuilder(); // Collect error messages
+        // To collect error messages
+        StringBuilder errors = new StringBuilder();
 
         // Check for empty fields
         if (Validation.isNullOrEmpty(libId) || Validation.isNullOrEmpty(name)
@@ -747,14 +788,15 @@ public class LibraryApp extends javax.swing.JFrame {
                 ) {
             errors.append("Please fill the entire form.\n");
         } else {
-            
-            for(LibraryModel library : libList){
-                if (Integer.parseInt(libId)== library.getLibID()){
-                    valid = false;
+            try {
+                //Check if the library already exists
+                for (LibraryModel library : libList) {
+                    if (Integer.parseInt(libId) == library.getLibID()) {
+                        valid = false;
+                    }
                 }
-            }
-            if (valid) {
-                try {
+                if (valid) {
+                    // Perform validation for every field 
                     if (!Validation.isValidLibId(Integer.parseInt(libId))) {
                         errors.append("Library ID must be 3 digits.\n");
                     }
@@ -776,29 +818,40 @@ public class LibraryApp extends javax.swing.JFrame {
                     if (!Validation.isValidEstdYear(Integer.parseInt(estdYear))) {
                         errors.append("Established Year must be between 1500 and 2024.\n");
                     }
-                } catch (NumberFormatException e) {
-                    errors.append("Enter valid numbers where required.\n");
+
+                } else {
+                    // Show a message if the library has already been registered
+                    JOptionPane.showMessageDialog(this, "This library is already registered", "Invalid Input", JOptionPane.ERROR_MESSAGE);
                 }
-            } else {
-                JOptionPane.showMessageDialog(this, "This library is already registered", "Validation Errors", JOptionPane.ERROR_MESSAGE);
+            } catch (NumberFormatException e) {
+                // Handle exception arising from invalid data type
+                errors.append("Enter valid numbers where required.\nLibrary ID, Estd.Year, Staff Count & Total Books should be numbers.");
             }
         }
 
         // Display errors if any
         if (errors.length() > 0) {
-            JOptionPane.showMessageDialog(this, errors.toString(), "Validation Errors", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, errors.toString(), "Invalid Input", JOptionPane.ERROR_MESSAGE);
         } else if(valid) {
             // If valid, register the library
             registerLibrary(new LibraryModel(
                     Integer.parseInt(libId), name, location, libType,
                     Integer.parseInt(estdYear), contact,
                     Integer.parseInt(staffCount), Integer.parseInt(totalBooks), operatingHours));
+            // Display success message to the user
             JOptionPane.showMessageDialog(this, "Library added successfully!", "Add Successful", JOptionPane.INFORMATION_MESSAGE);
         }
 
 
     }//GEN-LAST:event_btnAddLibraryActionPerformed
 
+    /**
+     * Handles the action event when the "Log In" button is clicked. Validates
+     * the username and password, displays error messages for invalid inputs,
+     * and transitions to the main screen upon successful login.
+     *
+     * @param evt the event triggered when the button is clicked
+     */
     private void btnLogInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogInActionPerformed
         // Get the username and password input
         String username = txtLoginUsername.getText();
@@ -818,26 +871,58 @@ public class LibraryApp extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnLogInActionPerformed
 
+    /**
+     * Handles the mouse click event on the "Log Out" label. Navigates back to
+     * the login screen and clears the username and password fields.
+     *
+     * @param evt the event triggered when the label is clicked
+     */
     private void lblMainBottomLogOutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblMainBottomLogOutMouseClicked
+        // Switch back to the login screen
         cardLayout.show(getContentPane(), "LoginScreen");
+        
+        //Clear the username and password fields
         txtLoginUsername.setText("");
         pwdLoginPassword.setText("");
     }//GEN-LAST:event_lblMainBottomLogOutMouseClicked
 
+    /**
+     * Handles the mouse click event on the "Home" label. Displays the "Home"
+     * panel within the main screen.
+     *
+     * @param evt the event triggered when the label is clicked
+     */
     private void lblMainBottomHomeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblMainBottomHomeMouseClicked
+        //Show the home panel
         mainCardLayout.show(pnlMain, "Home");
     }//GEN-LAST:event_lblMainBottomHomeMouseClicked
 
+    /**
+     * Handles the mouse click event on the "Admin" label. Displays the "Admin"
+     * panel within the main screen.
+     *
+     * @param evt the event triggered when the label is clicked
+     */
     private void lblMainBottomAdminMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblMainBottomAdminMouseClicked
+        // Show the admin panel
         mainCardLayout.show(pnlMain, "Admin");
     }//GEN-LAST:event_lblMainBottomAdminMouseClicked
 
+    /**
+     * Handles the action event when the "Update Library" button is clicked.
+     * Validates the input data, updates the selected library record in the
+     * ArrayList and table, and displays appropriate messages for errors or
+     * successful updates.
+     *
+     * @param evt the event triggered when the button is clicked
+     */
     private void btnUpdateLibraryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateLibraryActionPerformed
 
-                                                        
+    // Retrieve the model and selected row index                                                    
     DefaultTableModel model = (DefaultTableModel) tblAdminLib.getModel();
     int selectedRow = tblAdminLib.getSelectedRow();
 
+    //Check if a row is selected
     if (selectedRow != -1) {
         // Retrieve updated values from text fields and combo boxes
         String libId = txtLibraryID.getText();
@@ -850,8 +935,10 @@ public class LibraryApp extends javax.swing.JFrame {
         String totalBooks = txtTotalBooks.getText();
         String operatingHours = (String) comBoxOperatingHours.getSelectedItem();
 
+        //Flag for input validation
         boolean valid = true;
-        StringBuilder errors = new StringBuilder(); // Collect error messages
+        // Collect error messages
+        StringBuilder errors = new StringBuilder(); 
 
         // Check for empty fields
         if (Validation.isNullOrEmpty(libId) || Validation.isNullOrEmpty(name)
@@ -862,6 +949,7 @@ public class LibraryApp extends javax.swing.JFrame {
             valid = false;
         } else {
             try {
+                // Perform validation for every field
                 if (!Validation.isValidLibId(Integer.parseInt(libId))) {
                     errors.append("Library ID must be 3 digits.\n");
                 }
@@ -884,17 +972,18 @@ public class LibraryApp extends javax.swing.JFrame {
                     errors.append("Established Year must be between 1500 and 2024.\n");
                 }
             } catch (NumberFormatException ex) {
-                errors.append("Enter valid numbers where required.\n");
+                // Handle exception arising from invalid data type
+                errors.append("Enter valid numbers where required.\nLibrary ID, Estd.Year, Staff Count & Total Books should be numbers.");
                 valid = false;
             }
         }
 
         // Display errors if any
         if (errors.length() > 0) {
-            JOptionPane.showMessageDialog(this, errors.toString(), "Validation Errors", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, errors.toString(), "Inalid Input", JOptionPane.ERROR_MESSAGE);
         } else if (valid) {
             
-              // If valid, update the library
+            // If valid, update the library
             LibraryModel updatedLibrary = new LibraryModel(
                     Integer.parseInt(libId), name, location, libType,
                     Integer.parseInt(estdYear), contact,
@@ -914,31 +1003,54 @@ public class LibraryApp extends javax.swing.JFrame {
             model.setValueAt(totalBooks, selectedRow, 7);
             model.setValueAt(operatingHours, selectedRow, 8);
 
+            // Display success message to the user
             JOptionPane.showMessageDialog(this, "Library updated successfully!", "Update Successful", JOptionPane.INFORMATION_MESSAGE);
 
         }
         
     } else {
+        // If no row is selected, display a warning message
         JOptionPane.showMessageDialog(this, "Please select a row to update.", "No Selection", JOptionPane.WARNING_MESSAGE);
     }
 
 
     }//GEN-LAST:event_btnUpdateLibraryActionPerformed
 
+    /**
+     * Handles the action event when the "Delete Library" button is clicked.
+     * Deletes the selected library record from the table and the ArrayList.
+     *
+     * @param evt the event triggered when the button is clicked
+     */
     private void btnDeleteLibraryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteLibraryActionPerformed
+        // Get the selected row index from the table
         int selectedRow = tblAdminLib.getSelectedRow();
+
+        // Check if a row is selected
         if (selectedRow != -1) {
+            // Retrieve the table model and remove the selected row and from the array list
             DefaultTableModel model = (DefaultTableModel) tblAdminLib.getModel();
             model.removeRow(selectedRow);
             libList.remove(selectedRow);
+            
+            // Notify the user that the deletion was successful
+            JOptionPane.showMessageDialog(this, "Library deleted successfully!", "Delete Successful", JOptionPane.INFORMATION_MESSAGE);
         } else {
+            // If no row is selected, display a warning message
             JOptionPane.showMessageDialog(this, "Please select a row to delete.", "No Selection", JOptionPane.WARNING_MESSAGE);
         }
 
-        
+
     }//GEN-LAST:event_btnDeleteLibraryActionPerformed
 
+    /**
+     * Handles the action event when the "Clear" button is clicked. Clears all
+     * the input fields in the library form.
+     *
+     * @param evt the event triggered when the button is clicked
+     */
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
+            //Reset all input fields to empty strings
             txtLibraryID.setText("");
             txtName.setText("");
             txtLocation.setText("");
@@ -948,23 +1060,32 @@ public class LibraryApp extends javax.swing.JFrame {
             txtTotalBooks.setText("");
     }//GEN-LAST:event_btnClearActionPerformed
 
+    /**
+     * Handles the action when a sorting option is selected from the combo box.
+     * Sorts the `libList` using the appropriate sorting algorithm based on the
+     * selected option and updates the table display with the sorted data.
+     *
+     * @param evt the event triggered when an item is selected in the combo box
+     */
     private void comBoxSortByActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comBoxSortByActionPerformed
 
+        // Get the selected sorting option from the combo box
         String item = (String)comBoxSortBy.getSelectedItem();
+        
+        // Determine the sorting algorithm to use based on the selected option
         if (item.equals("Total Books (Ascending)") || item.equals("Total Books (Descending)") || item.equals("Staff Count (Ascending)") || item.equals("Staff Count (Descending)")){
-            SelectionSort.selectionSort(libList, item);
-            
-            
+            SelectionSort.selectionSort(libList, item);     
         }else if(item.equals("Library ID (Ascending)") || item.equals("Library ID (Descending)") || item.equals("Estd.Year (Ascending)") || item.equals("Estd.Year (Descending)")){
             InsertionSort.insertionSort(libList, item);
         }else{
             MergeSort.sort(libList, item);
         }
-        
-        
-        
+
+        // Clear the existing table data
         DefaultTableModel model = (DefaultTableModel) tblAdminLib.getModel();
         model.setRowCount(0);
+        
+        //Populate the table with the sorted list
         for(LibraryModel library : libList){
             model.addRow(new Object[]{
             library.getLibID(), library.getLibName(), library.getLocation(), library.getLibType(), library.getEstablishedYear(), library.getContactNumber(), library.getStaffCount(), library.getTotalBooks(), library.getOperatingHours()
@@ -972,30 +1093,51 @@ public class LibraryApp extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_comBoxSortByActionPerformed
 
+    /**
+     * Handles the action when the search label is clicked. Searches for a
+     * library by name using binary search and highlights the matching row in
+     * the table.
+     *
+     * @param evt the event triggered when the search label is clicked
+     */
     private void lblAdminSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAdminSearchMouseClicked
+        // Sort the list by name in ascending order for binary search
         MergeSort mergeSort = new MergeSort();
         List<LibraryModel> sortedList = mergeSort.sort(libList, "Name (Ascending)");
+        
+        // Perform binary search to find the library by name
         BinarySearch search = new BinarySearch();
         LibraryModel searchedData = search.searchByName(txtAdminSearch.getText().trim(), sortedList, 0, sortedList.size()-1);
+        
         if (searchedData != null) {
             // Find the row in the table that matches the searched data
             DefaultTableModel model = (DefaultTableModel) tblAdminLib.getModel();
+            
             for (int i = 0; i < model.getRowCount(); i++) {
-                // Assuming the library name is in column 1 (adjust index if needed)
+                
                 if (model.getValueAt(i, 1).equals(searchedData.getLibName())) {
                     // Select and highlight the row
-                    tblAdminLib.setRowSelectionInterval(i, i); // Select the row
-                    tblAdminLib.scrollRectToVisible(tblAdminLib.getCellRect(i, 0, true)); // Ensure it's visible
+                    tblAdminLib.setRowSelectionInterval(i, i); 
+                    tblAdminLib.scrollRectToVisible(tblAdminLib.getCellRect(i, 0, true)); 
                     break;
                 }
             }
         } else{
-            JOptionPane. showMessageDialog (this,"Sorry! The library you are searching is not registered.","Search Result Not Found.",JOptionPane.ERROR_MESSAGE);
+            // Display a warning message if the library is not found
+            JOptionPane. showMessageDialog (this,"Sorry! The library you are searching is not registered.","Search Result Not Found.",JOptionPane.WARNING_MESSAGE);
         } 
     }//GEN-LAST:event_lblAdminSearchMouseClicked
 
+    /**
+     * Handles the event when a row in the table is clicked. Updates the text
+     * fields in the form with the data from the selected row.
+     *
+     * @param evt the event triggered when the table is clicked
+     */
     private void tblAdminLibMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblAdminLibMouseClicked
-        if (evt.getClickCount() == 1) { // Double-click detection
+        // Single-click detection
+        if (evt.getClickCount() == 1) { 
+            // Set the form's text fields to the data from the selected row
             setTextFieldsToSelectedRow();
         }
     }//GEN-LAST:event_tblAdminLibMouseClicked
