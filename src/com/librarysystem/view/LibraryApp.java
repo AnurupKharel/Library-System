@@ -6,6 +6,7 @@ import com.librarysystem.controller.algorithm.MergeSort;
 import com.librarysystem.controller.algorithm.SelectionSort;
 import com.librarysystem.model.LibraryModel;
 import com.librarysystem.util.Validation;
+import static com.librarysystem.util.Validation.isNullOrEmpty;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -980,7 +981,7 @@ public class LibraryApp extends javax.swing.JFrame {
 
         // Display errors if any
         if (errors.length() > 0) {
-            JOptionPane.showMessageDialog(this, errors.toString(), "Inalid Input", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, errors.toString(), "Invalid Input", JOptionPane.ERROR_MESSAGE);
         } else if (valid) {
             
             // If valid, update the library
@@ -1109,22 +1110,24 @@ public class LibraryApp extends javax.swing.JFrame {
         BinarySearch search = new BinarySearch();
         LibraryModel searchedData = search.searchByName(txtAdminSearch.getText().trim(), sortedList, 0, sortedList.size()-1);
         
-        if (searchedData != null) {
+        if (isNullOrEmpty(txtAdminSearch.getText())) {
+            JOptionPane.showMessageDialog(this, "Please fill the search bar before searching.", "Invalid Input.", JOptionPane.WARNING_MESSAGE);
+        } else if (searchedData != null) {
             // Find the row in the table that matches the searched data
             DefaultTableModel model = (DefaultTableModel) tblAdminLib.getModel();
-            
+
             for (int i = 0; i < model.getRowCount(); i++) {
-                
+
                 if (model.getValueAt(i, 1).equals(searchedData.getLibName())) {
                     // Select and highlight the row
-                    tblAdminLib.setRowSelectionInterval(i, i); 
-                    tblAdminLib.scrollRectToVisible(tblAdminLib.getCellRect(i, 0, true)); 
+                    tblAdminLib.setRowSelectionInterval(i, i);
+                    tblAdminLib.scrollRectToVisible(tblAdminLib.getCellRect(i, 0, true));
                     break;
                 }
             }
-        } else{
+        } else {
             // Display a warning message if the library is not found
-            JOptionPane. showMessageDialog (this,"Sorry! The library you are searching is not registered.","Search Result Not Found.",JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Sorry! The library you are searching is not registered.", "Search Result Not Found.", JOptionPane.WARNING_MESSAGE);
         } 
     }//GEN-LAST:event_lblAdminSearchMouseClicked
 

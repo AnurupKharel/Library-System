@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  *
- * @author anuru
+ * @author 23048644 Anurup Kharel
  */
 /**
  * This class implements the Binary Search algorithm to search for a library
@@ -47,6 +47,5 @@ public class BinarySearch {
         } else {
             return searchByName(searchValue, list, mid + 1, right);
         }
-
     }
 }

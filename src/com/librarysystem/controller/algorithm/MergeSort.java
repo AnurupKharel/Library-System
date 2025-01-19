@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  *
- * @author anuru
+ * @author 23048644 Anurup Kharel
  */
 /**
  * This class provides the merge sort algorithm to sort a list of `LibraryModel` objects

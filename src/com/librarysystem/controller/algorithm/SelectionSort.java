@@ -42,8 +42,7 @@ public class SelectionSort {
 
                         }
                     }
-                    
-                    
+         
                 }else if(item.equals("Total Books (Descending)")){
                    
                     for(int next = step + 1; next < size; next++) {
